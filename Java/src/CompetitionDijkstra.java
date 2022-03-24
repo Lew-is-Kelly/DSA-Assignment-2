@@ -32,7 +32,7 @@ public class CompetitionDijkstra {
      */
     public int timeRequiredforCompetition(){
 
-        //TO DO
+        //TODO
         return -1;
     }
 
