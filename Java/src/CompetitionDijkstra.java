@@ -15,22 +15,51 @@
  * This class implements the competition using Dijkstra's algorithm
  */
 
-public class CompetitionDijkstra {
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedList;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
+
+public class CompetitionDijkstra
+{
     /**
      * @param filename: A filename containing the details of the city road network
-     * @param sA, sB, sC: speeds for 3 contestants
-    */
-    CompetitionDijkstra (String filename, int sA, int sB, int sC){
-
-       //TODO
+     * @param sA,sB,sC: speeds for 3 contestants
+     */
+    CompetitionDijkstra(String filename, int sA, int sB, int sC) throws IOException
+    {
+        BufferedReader buff = new BufferedReader(new FileReader("inputAssignment2/" + filename));
+        String currLine;
+        LinkedList<double[]> roads = new LinkedList<>();
+        currLine = buff.readLine();
+        int numOfJunc = parseInt(currLine);
+        currLine = buff.readLine();
+        int numOfRoads = parseInt(currLine);
+        System.out.println(numOfJunc);
+        System.out.println(numOfRoads);
+        while ((currLine = buff.readLine()) != null)
+        {
+            System.out.println(currLine);
+            String[] stringArray= currLine.split(" ");
+            double[] ar = new double[stringArray.length];
+            for (int i = 0; i <= stringArray.length - 1; i++)
+            {
+                ar[i] = parseDouble(stringArray[i]);
+            }
+            roads.add(ar);
+        }
+        System.out.println(roads);
+        //TODO
     }
 
-
     /**
-    * @return int: minimum minutes that will pass before the three contestants can meet
+     * @return int: minimum minutes that will pass before the three contestants can meet
      */
-    public int timeRequiredforCompetition(){
+    public int timeRequiredforCompetition()
+    {
 
         //TODO
         return -1;

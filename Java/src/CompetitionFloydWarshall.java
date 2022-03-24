@@ -15,13 +15,15 @@
  * This class implements the competition using Floyd-Warshall algorithm
  */
 
-public class CompetitionFloydWarshall {
+public class CompetitionFloydWarshall
+{
 
     /**
      * @param filename: A filename containing the details of the city road network
-     * @param sA, sB, sC: speeds for 3 contestants
+     * @param sA,       sB, sC: speeds for 3 contestants
      */
-    CompetitionFloydWarshall (String filename, int sA, int sB, int sC){
+    CompetitionFloydWarshall(String filename, int sA, int sB, int sC)
+    {
 
         //TODO
     }
@@ -30,7 +32,8 @@ public class CompetitionFloydWarshall {
     /**
      * @return int: minimum minutes that will pass before the three contestants can meet
      */
-    public int timeRequiredforCompetition(){
+    public int timeRequiredforCompetition()
+    {
 
         //TODO
         return -1;
