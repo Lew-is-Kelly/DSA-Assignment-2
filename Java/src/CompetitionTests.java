@@ -7,7 +7,7 @@ public class CompetitionTests
     @Test
     public void testDijkstraConstructor() throws IOException
     {
-        new CompetitionDijkstra("tinyEWD.txt", 0, 0, 0);
+        new CompetitionDijkstra("tinyEWD.txt", 1, 1, 1);
         //TODO
     }
 

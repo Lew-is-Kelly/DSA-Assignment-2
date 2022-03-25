@@ -25,6 +25,8 @@ import static java.lang.Integer.parseInt;
 
 public class CompetitionDijkstra
 {
+    LinkedList<double[]> roads = new LinkedList<>();
+
     /**
      * @param filename: A filename containing the details of the city road network
      * @param sA,sB,sC: speeds for 3 contestants
@@ -32,18 +34,11 @@ public class CompetitionDijkstra
     CompetitionDijkstra(String filename, int sA, int sB, int sC) throws IOException
     {
         BufferedReader buff = new BufferedReader(new FileReader("inputAssignment2/" + filename));
+
         String currLine;
-        LinkedList<double[]> roads = new LinkedList<>();
-        currLine = buff.readLine();
-        int numOfJunc = parseInt(currLine);
-        currLine = buff.readLine();
-        int numOfRoads = parseInt(currLine);
-        System.out.println(numOfJunc);
-        System.out.println(numOfRoads);
         while ((currLine = buff.readLine()) != null)
         {
-            System.out.println(currLine);
-            String[] stringArray= currLine.split(" ");
+            String[] stringArray = currLine.split(" ");
             double[] ar = new double[stringArray.length];
             for (int i = 0; i <= stringArray.length - 1; i++)
             {
@@ -51,8 +46,11 @@ public class CompetitionDijkstra
             }
             roads.add(ar);
         }
+    }
+
+    public void dijkstra()
+    {
         System.out.println(roads);
-        //TODO
     }
 
     /**
@@ -60,7 +58,10 @@ public class CompetitionDijkstra
      */
     public int timeRequiredforCompetition()
     {
-
+        for (int i = 0; i < roads.size(); i++)
+        {
+            dijkstra();
+        }
         //TODO
         return -1;
     }
