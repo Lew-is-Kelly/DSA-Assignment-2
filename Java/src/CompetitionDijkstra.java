@@ -72,9 +72,10 @@ public class CompetitionDijkstra
         return -1;
     }
 
-    void printGraph()
+    void printRoads()
     {
-        for (int i = 0; i < (numOfInter * numOfInter); i++)
+        System.out.println(numOfInter + ", " + numOfRoads + ", " + speedOfA + ", " + speedOfB + ", " + speedOfC);
+        for (int i = 0; i < numOfInter; i++)
         {
             for (int j = 0; j < numOfInter; j++)
             {

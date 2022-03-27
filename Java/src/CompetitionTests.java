@@ -10,7 +10,7 @@ public class CompetitionTests
     public void testDijkstraConstructor() throws IOException
     {
         CompetitionDijkstra one = new CompetitionDijkstra("tinyEWD.txt", 1, 1, 1);
-        one.printGraph();
+        one.printRoads();
         //TODO
     }
 
