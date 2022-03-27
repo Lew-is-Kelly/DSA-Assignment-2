@@ -18,14 +18,19 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.Arrays;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
 public class CompetitionDijkstra
 {
-    LinkedList<double[]> roads = new LinkedList<>();
+    int numOfInter;
+    int numOfRoads;
+    int speedOfA;
+    int speedOfB;
+    int speedOfC;
+    double[][] roads;
 
     /**
      * @param filename: A filename containing the details of the city road network
@@ -33,24 +38,29 @@ public class CompetitionDijkstra
      */
     CompetitionDijkstra(String filename, int sA, int sB, int sC) throws IOException
     {
+        speedOfA = sA;
+        speedOfB = sB;
+        speedOfC = sC;
+
         BufferedReader buff = new BufferedReader(new FileReader("inputAssignment2/" + filename));
+        numOfInter = parseInt(buff.readLine());
+        numOfRoads = parseInt(buff.readLine());
+
+        roads = new double[numOfInter][numOfInter];
 
         String currLine;
-        while ((currLine = buff.readLine()) != null)
+        while((currLine = buff.readLine()) != null)
         {
-            String[] stringArray = currLine.split(" ");
-            double[] ar = new double[stringArray.length];
-            for (int i = 0; i <= stringArray.length - 1; i++)
-            {
-                ar[i] = parseDouble(stringArray[i]);
-            }
-            roads.add(ar);
+            String[] lineArray = currLine.split(" ");
+            int x = parseInt(lineArray[0]);
+            int y = parseInt(lineArray[1]);
+            roads[x][y] = parseDouble(lineArray[2]);
         }
     }
 
     public void dijkstra()
     {
-        System.out.println(roads);
+        System.out.println(Arrays.deepToString(roads));
     }
 
     /**
@@ -58,12 +68,20 @@ public class CompetitionDijkstra
      */
     public int timeRequiredforCompetition()
     {
-        for (int i = 0; i < roads.size(); i++)
-        {
-            dijkstra();
-        }
         //TODO
         return -1;
+    }
+
+    void printGraph()
+    {
+        for (int i = 0; i < (numOfInter * numOfInter); i++)
+        {
+            for (int j = 0; j < numOfInter; j++)
+            {
+                System.out.print(" " + roads[i][j]);
+            }
+            System.out.println();
+        }
     }
 
 }
