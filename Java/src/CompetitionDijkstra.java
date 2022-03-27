@@ -13,12 +13,13 @@
  * streets that the contestants can use to traverse the city.
  *
  * This class implements the competition using Dijkstra's algorithm
+ *
+ * @author Lewis Kelly 20335015
  */
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
@@ -49,7 +50,7 @@ public class CompetitionDijkstra
         roads = new double[numOfInter][numOfInter];
 
         String currLine;
-        while((currLine = buff.readLine()) != null)
+        while ((currLine = buff.readLine()) != null)
         {
             String[] lineArray = currLine.split(" ");
             int x = parseInt(lineArray[0]);
@@ -58,9 +59,43 @@ public class CompetitionDijkstra
         }
     }
 
-    public void dijkstra()
+    double minDistance(double[] path, boolean[] interInPath)   {
+        // Initialize min value
+        double min = Double.MAX_VALUE, mindex = -1;
+        for (int inter = 0; inter < numOfInter; inter++)
+            if (!interInPath[inter] && path[inter] <= min) {
+                min = path[inter];
+                mindex = inter;
+            }
+
+        return mindex;
+    }
+
+    public void dijkstra(int start)
     {
-        System.out.println(Arrays.deepToString(roads));
+        double[] path = new double[numOfInter];
+
+        boolean[] interInPath = new boolean[numOfInter];
+
+        for (int i = 0; i < numOfInter; i++)
+        {
+            path[i] = Double.MAX_VALUE;
+            interInPath[i] = false;
+        }
+
+        path[start] = 0;
+
+        for (int count = 0; count < numOfInter - 1; count++)
+        {
+            int u = (int)Math.round(minDistance(path, interInPath));
+            interInPath[u] = true;
+            for (int v = 0; v < numOfInter; v++)
+            {
+                if(!interInPath[v] && roads[u][v] != 0 && path[u] != Double.MAX_VALUE && path[u] +
+                        roads[u][v] < path[v])
+                    path[v] = path[u] + roads[u][v];
+            }
+        }
     }
 
     /**
@@ -68,6 +103,10 @@ public class CompetitionDijkstra
      */
     public int timeRequiredforCompetition()
     {
+        for (int i = 0; i < numOfInter; i++)
+        {
+            dijkstra(i);
+        }
         //TODO
         return -1;
     }
