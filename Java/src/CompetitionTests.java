@@ -17,6 +17,9 @@ public class CompetitionTests
         compDijk = new CompetitionDijkstra(empty, 50, 50, 50);
         assertEquals("Invalid", -1, compDijk.timeRequiredforCompetition());
 
+        compDijk = new CompetitionDijkstra("input-A.txt", 50, 50, 50);
+        assertEquals("No Path", -1, compDijk.timeRequiredforCompetition());
+
         compDijk = new CompetitionDijkstra(tiny, 50, 50, 50);
         assertEquals("Valid", 38, compDijk.timeRequiredforCompetition());
 
@@ -43,6 +46,9 @@ public class CompetitionTests
 
         compFW = new CompetitionFloydWarshall(empty, 50, 50, 50);
         assertEquals("Invalid", -1, compFW.timeRequiredforCompetition());
+
+        compFW = new CompetitionFloydWarshall("input-A.txt", 50, 50, 50);
+        assertEquals("No Path", -1, compFW.timeRequiredforCompetition());
 
         compFW = new CompetitionFloydWarshall(tiny, 50, 50, 50);
         assertEquals("Valid", 38, compFW.timeRequiredforCompetition());

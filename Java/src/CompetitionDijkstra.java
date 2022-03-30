@@ -145,6 +145,10 @@ public class CompetitionDijkstra
             }
 
             double max = getHighestValue(dist);
+            if (max == Double.POSITIVE_INFINITY)
+            {
+                return -1;
+            }
             if (max > currentMaxDist)
             {
                 currentMaxDist = max;
