@@ -29,7 +29,6 @@ public class CompetitionDijkstra
 {
     private final String fileName;
     private int numOfVert;
-    private int numOfRoads;
     private final int speedOfA;
     private final int speedOfB;
     private final int speedOfC;
@@ -55,7 +54,7 @@ public class CompetitionDijkstra
 
         BufferedReader buff = new BufferedReader(new FileReader("inputAssignment2/" + fileName));
         numOfVert = parseInt(buff.readLine());
-        numOfRoads = parseInt(buff.readLine());
+        int numOfRoads = parseInt(buff.readLine());
 
         roads = new double[numOfVert][numOfVert];
 
@@ -63,9 +62,22 @@ public class CompetitionDijkstra
         while ((currLine = buff.readLine()) != null)
         {
             String[] lineArray = currLine.split(" ");
-            int vert1 = parseInt(lineArray[0]);
-            int vert2 = parseInt(lineArray[1]);
-            roads[vert1][vert2] = parseDouble(lineArray[2]);
+            int index = 0;
+            if (lineArray[index].equals(""))
+            {
+                index++;
+                if (lineArray[index].equals(""))
+                    index++;
+            }
+            int vert1 = parseInt(lineArray[index++]);
+            if (lineArray[index].equals(""))
+            {
+                index++;
+                if (lineArray[index].equals(""))
+                    index++;
+            }
+            int vert2 = parseInt(lineArray[index++]);
+            roads[vert1][vert2] = parseDouble(lineArray[index]);
         }
 
         buff.close();
@@ -76,18 +88,18 @@ public class CompetitionDijkstra
      */
     public int timeRequiredforCompetition()
     {
-        if (getMinDis() == -1
-                || fileName == null
-                || speedOfA < 50 || speedOfA > 100
+        if (speedOfA < 50 || speedOfA > 100
                 || speedOfB < 50 || speedOfB > 100
                 || speedOfC < 50 || speedOfC > 100
+                ||getMinDis() == -1
+                || fileName == null
                 || numOfVert <= 0)
         {
             return -1;
         }
 
         int tot;
-        double dist1 = Double.MAX_VALUE;
+        double dist1 = Double.MIN_VALUE;
 
         for (double[] doubles : roads)
         {
@@ -117,7 +129,7 @@ public class CompetitionDijkstra
         double min = Double.MAX_VALUE;
         int mindex = -1;
         for (int i = 0; i < numOfVert; i++)
-            if (!vertPath.contains(i) && path[i] < min)
+            if (!vertPath.contains(i) && path[i] <= min)
             {
                 min = path[i];
                 mindex = i;
@@ -171,24 +183,5 @@ public class CompetitionDijkstra
             }
         }
         return 0;
-    }
-
-    void printRoads()
-    {
-        System.out.printf("%d, %d, %d, %d, %d\n", numOfVert, numOfRoads, speedOfA, speedOfB, speedOfC);
-        for (int i = 0; i < numOfVert; i++)
-        {
-            for (int j = 0; j < numOfVert; j++)
-            {
-                if (roads[i][j] == 0)
-                {
-                    System.out.print("0 ");
-                } else
-                {
-                    System.out.printf("%.2f ", roads[i][j]);
-                }
-            }
-            System.out.println();
-        }
     }
 }

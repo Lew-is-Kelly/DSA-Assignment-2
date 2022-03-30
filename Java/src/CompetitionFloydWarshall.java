@@ -13,6 +13,8 @@
  * streets that the contestants can use to traverse the city.
  *
  * This class implements the competition using Floyd-Warshall algorithm
+ *
+ * @author Lewis Kelly
  */
 
 public class CompetitionFloydWarshall
@@ -20,7 +22,7 @@ public class CompetitionFloydWarshall
 
     /**
      * @param filename: A filename containing the details of the city road network
-     * @param sA,       sB, sC: speeds for 3 contestants
+     * @param sA,sB,sC: speeds for 3 contestants
      */
     CompetitionFloydWarshall(String filename, int sA, int sB, int sC)
     {
