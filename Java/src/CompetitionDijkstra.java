@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
+import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.parseInt;
 
 public class CompetitionDijkstra
@@ -34,7 +35,6 @@ public class CompetitionDijkstra
     private final int speedOfC;
     double[][] roads;
     double[][] dist;
-    List<Integer> shortest = new ArrayList<>();
 
     /**
      * @param filename: A filename containing the details of the city road network
@@ -111,27 +111,37 @@ public class CompetitionDijkstra
         }
 
         int tot;
-        double dist1 = Double.MIN_VALUE;
+        double distance = Double.MIN_VALUE;
 
-        for (double[] doubles : roads)
+        for (double[] d : dist)
         {
-            for (double val : doubles)
+            for (double val : d)
             {
-                if (val > dist1)
+                if(val != Double.MAX_VALUE)
                 {
-                    dist1 = val;
+                    if (val > distance)
+                    {
+                        distance = val;
+                    }
+                }
+                else
+                {
+                    return -1;
                 }
             }
         }
-        shortest.add(speedOfA);
-        shortest.add(speedOfB);
-        shortest.add(speedOfC);
 
-        int longest = Collections.min(shortest);
+        List<Integer> speeds = new ArrayList<>();
 
-        dist1 *= 1000;
+        speeds.add(speedOfA);
+        speeds.add(speedOfB);
+        speeds.add(speedOfC);
 
-        tot = (int) Math.ceil(dist1 / longest);
+        int slowest = Collections.min(speeds);
+
+        distance *= 1000;
+
+        tot = (int) Math.ceil(distance / slowest);
 
         return tot;
     }
@@ -182,7 +192,7 @@ public class CompetitionDijkstra
                 {
                     if (vert != -1)
                     {
-                        if (roads[vert][j] != -3)
+                        if (roads[vert][j] != 0)
                         {
                             if (dist[i][j] > roads[vert][j] + dist[i][vert])
                                 dist[i][j] = roads[vert][j] + dist[i][vert];

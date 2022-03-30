@@ -17,31 +17,31 @@ public class CompetitionTests
         assertEquals("Didn't return -1 for invalid speed", -1, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-A.txt", 50, 50, 50);
-        assertEquals("Didn't return 3000 for A", 3000, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return -1 for A", -1, compDijk.timeRequiredforCompetition());
 
-        compDijk = new CompetitionDijkstra("input-B.txt", 50, 50, 50);
-        assertEquals("Didn't return 5000 for B", 5000, compDijk.timeRequiredforCompetition());
+        compDijk = new CompetitionDijkstra("input-B.txt", 72, 70, 65);
+        assertEquals("Didn't return 5000 for B", 7693, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-C.txt", 50, 50, 50);
-        assertEquals("Didn't return 4000 for C", 4000, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return 4000 for C", -1, compDijk.timeRequiredforCompetition());
 
-        compDijk = new CompetitionDijkstra("input-D.txt", 50, 50, 50);
-        assertEquals("Didn't return 19 for D", 19, compDijk.timeRequiredforCompetition());
+        compDijk = new CompetitionDijkstra("input-D.txt", 50, 80, 60);
+        assertEquals("Didn't return 19 for D", 38, compDijk.timeRequiredforCompetition());
 
 //        compDijk = new CompetitionDijkstra("input-E.txt", 50, 50, 50);
 //        assertEquals("Didn't return x for E", -1, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-F.txt", 50, 50, 50);
-        assertEquals("Didn't return 1832 for F", 1832, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return 1832 for F", -1, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-G.txt", 50, 50, 50);
-        assertEquals("Didn't return 2000 for G", 2000, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return 2000 for G", -1, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-H.txt", 50, 50, 50);
         assertEquals("Didn't return -1 for H", -1, compDijk.timeRequiredforCompetition());
 
-        compDijk = new CompetitionDijkstra("input-I.txt", 50, 50, 50);
-        assertEquals("Didn't return 180 for I", 180, compDijk.timeRequiredforCompetition());
+        compDijk = new CompetitionDijkstra("input-I.txt", 60, 70, 84);
+        assertEquals("Didn't return 180 for I", 250, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-J.txt", 50, 50, 50);
         assertEquals("Didn't return -1 for no path", -1, compDijk.timeRequiredforCompetition());
