@@ -192,7 +192,9 @@ public class CompetitionDijkstra
         graph = buildGraph();
         double maxDist = dijkstra();
 
-        return (int) ((Math.ceil((maxDist * 1000) / slowestSpeed)));
+        if (maxDist == -1)
+            return -1;
+        else return (int) ((Math.ceil((maxDist * 1000) / slowestSpeed)));
     }
 
 }
