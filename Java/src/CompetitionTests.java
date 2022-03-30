@@ -27,7 +27,7 @@ public class CompetitionTests
         assertEquals("Didn't return 10000 for B", 10000, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-C.txt", 50, 50, 50);
-        assertEquals("Didn't return 4000 for C", -1, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return -1 for C", -1, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-D.txt", 50, 80, 60);
         assertEquals("Didn't return 19 for D", 38, compDijk.timeRequiredforCompetition());
@@ -74,18 +74,18 @@ public class CompetitionTests
 
 //        compFW = new CompetitionFloydWarshall("tinyEWD.txt", 50, 50, 50);
 //        assertEquals("TinySlow didn't return 38", 38, compFW.timeRequiredforCompetition());
+
+//        compFW = new CompetitionFloydWarshall("tinyEWD.txt", 100, 100, 100);
+//        assertEquals("TinyFast didn't return 10", 19, compFW.timeRequiredforCompetition());
+
+        compFW = new CompetitionFloydWarshall("input-A.txt", 50, 50, 50);
+        assertEquals("Didn't return -1 for A", -1, compFW.timeRequiredforCompetition());
 //
-        compFW = new CompetitionFloydWarshall("tinyEWD.txt", 100, 100, 100);
-        assertEquals("TinyFast didn't return 10", 19, compFW.timeRequiredforCompetition());
-//
-//        compFW = new CompetitionFloydWarshall("input-A.txt", 50, 50, 50);
-//        assertEquals("Didn't return -1 for A", -1, compFW.timeRequiredforCompetition());
-//
-//        compFW = new CompetitionFloydWarshall("input-B.txt", 60, 80, 50);
-//        assertEquals("Didn't return 10000 for B", 10000, compFW.timeRequiredforCompetition());
+        compFW = new CompetitionFloydWarshall("input-B.txt", 60, 80, 50);
+        assertEquals("Didn't return 10000 for B", 10000, compFW.timeRequiredforCompetition());
 //
 //        compFW = new CompetitionFloydWarshall("input-C.txt", 50, 50, 50);
-//        assertEquals("Didn't return 4000 for C", -1, compFW.timeRequiredforCompetition());
+//        assertEquals("Didn't return -1 for C", -1, compFW.timeRequiredforCompetition());
 //
 //        compFW = new CompetitionFloydWarshall("input-D.txt", 50, 80, 60);
 //        assertEquals("Didn't return 19 for D", 38, compFW.timeRequiredforCompetition());

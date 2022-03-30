@@ -33,6 +33,7 @@ public class CompetitionFloydWarshall
     private final String fileName;
     private int numOfVert;
     List<Integer> speeds = new ArrayList<>();
+    private Integer[][] next;
 
     /**
      * @param filename: A filename containing the details of the city road network
@@ -102,12 +103,13 @@ public class CompetitionFloydWarshall
         if (speedOfA < 50 || speedOfA > 100 ||
                 speedOfB < 50 || speedOfB > 100 ||
                 speedOfC < 50 || speedOfC > 100 ||
-                numOfVert <= 0)
+                numOfVert <= 2)
         {
             return -1;
         }
 
         double[][] dist = new double[numOfVert][numOfVert];
+        next = new Integer[numOfVert][numOfVert];
 
         for (int i = 0; i < numOfVert; i++)
         {
@@ -116,8 +118,7 @@ public class CompetitionFloydWarshall
                 if (graph[i][j] != 0)
                 {
                     dist[i][j] = graph[i][j];
-                }
-                else dist[i][j] = Double.MAX_VALUE;
+                } else dist[i][j] = Double.MAX_VALUE;
             }
         }
         for (int k = 0; k < numOfVert; k++)
@@ -126,19 +127,46 @@ public class CompetitionFloydWarshall
             {
                 for (int j = 0; j < numOfVert; j++)
                 {
-                    if(dist[i][k] != Double.MAX_VALUE && dist[k][j] != Double.MAX_VALUE && dist[i][k] + dist[k][j] < dist[i][j])
+                    if (dist[i][k] + dist[k][j] < dist[i][j])
                     {
                         dist[i][j] = dist[i][k] + dist[k][j];
+                        next[i][j] = next[i][k];
                     }
+                }
+            }
+        }
+
+        for (int k = 0; k < numOfVert; k++)
+        {
+            for (int i = 0; i < numOfVert; i++)
+            {
+                for (int j = 0; j < numOfVert; j++)
+                {
+                    if (dist[i][k] != Double.MAX_VALUE && dist[k][j] != Double.MAX_VALUE && dist[k][k] < 0)
+                    {
+                        dist[i][j] = Double.MIN_VALUE;
+                        next[i][j] = -1;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < numOfVert; i++)
+        {
+            for (int j = 0; j < numOfVert; j++)
+            {
+                if(dist[i][j] == Double.MAX_VALUE)
+                {
+                    dist[i][j] = 0.0;
                 }
             }
         }
 
         int total;
         double longestDist = Double.MIN_VALUE;
-        for (double[] dists : dist)
+        for (double[] distRow : dist)
         {
-            for (double val : dists)
+            for (double val : distRow)
             {
                 if (val > longestDist)
                 {

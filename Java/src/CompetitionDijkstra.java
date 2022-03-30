@@ -104,16 +104,16 @@ public class CompetitionDijkstra
         if (speedOfA < 50 || speedOfA > 100 ||
                 speedOfB < 50 || speedOfB > 100 ||
                 speedOfC < 50 || speedOfC > 100 ||
-                numOfVert <= 0)
+                numOfVert <= 2)
         {
             return -1;
         }
         int total;
         double longestDist = Double.MIN_VALUE;
 
-        for (double[] dists : distances)
+        for (double[] distRow : distances)
         {
-            for (double val : dists)
+            for (double val : distRow)
             {
                 if (val > longestDist)
                 {
@@ -121,7 +121,7 @@ public class CompetitionDijkstra
                 }
             }
         }
-        
+
         speeds.add(speedOfA);
         speeds.add(speedOfB);
         speeds.add(speedOfC);
@@ -133,7 +133,7 @@ public class CompetitionDijkstra
 
         return total;
     }
-    
+
     int getMinVert(double[] mst, LinkedList<Integer> keyPath)
     {
         double min = Double.MAX_VALUE;
