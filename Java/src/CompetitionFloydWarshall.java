@@ -19,6 +19,8 @@
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class CompetitionFloydWarshall
@@ -68,22 +70,16 @@ public class CompetitionFloydWarshall
         {
             try
             {
-                if (file.hasNextInt())
-                {
-                    this.numOfVert = file.nextInt();
-                }
-                if (file.hasNextInt())
-                {
-                    this.numOfEdge = file.nextInt();
-                    file.nextLine();
-                }
+                this.numOfVert = file.nextInt();
+                this.numOfEdge = file.nextInt();
+                file.nextLine();
                 while (file.hasNextLine())
                 {
                     graphString.add(file.nextLine());
                 }
             } catch (Exception e)
             {
-                System.out.println(e);
+                System.err.println(e);
             }
         }
     }
@@ -103,9 +99,9 @@ public class CompetitionFloydWarshall
             graph[i][i] = 0;
         }
 
-        for (int i = 0; (i < this.graphString.size()); i++)
+        for (String s : this.graphString)
         {
-            Scanner lineScanner = new Scanner(this.graphString.get(i));
+            Scanner lineScanner = new Scanner(s);
             int street = lineScanner.nextInt();
             int connectingStreet = lineScanner.nextInt();
             double distance = lineScanner.nextDouble();
@@ -144,13 +140,12 @@ public class CompetitionFloydWarshall
                 || (speedOfB > 100 || speedOfB < 50)
                 || (speedOfC > 100 || speedOfC < 50)))
             return -1;
-        int slowestSpeed;
-        if (this.speedOfA < this.speedOfB && this.speedOfA < this.speedOfC)
-            slowestSpeed = speedOfA;
-        else if (this.speedOfB < this.speedOfA && this.speedOfB < this.speedOfC)
-            slowestSpeed = this.speedOfB;
-        else
-            slowestSpeed = this.speedOfC;
+
+        List<Integer> slowest = new ArrayList<>();
+        slowest.add(speedOfA);
+        slowest.add(speedOfB);
+        slowest.add(speedOfC);
+        int slowestSpeed = Collections.min(slowest);
 
         graph = buildGraph();
         floydWarshall(graph, numOfVert);
