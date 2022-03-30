@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -9,7 +8,7 @@ public class CompetitionTests
 {
 
     @Test
-    public void testDijkstraConstructor() throws IOException
+    public void testDijkstraConstructor()
     {
         CompetitionDijkstra compDijk = new CompetitionDijkstra(null, 50, 50, 50);
         assertEquals("Didn't return -1 for null file name", -1, compDijk.timeRequiredforCompetition());

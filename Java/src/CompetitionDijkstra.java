@@ -40,52 +40,58 @@ public class CompetitionDijkstra
      * @param filename: A filename containing the details of the city road network
      * @param sA,sB,sC: speeds for 3 contestants
      */
-    CompetitionDijkstra(String filename, int sA, int sB, int sC) throws IOException
+    CompetitionDijkstra(String filename, int sA, int sB, int sC)
     {
         fileName = filename;
         speedOfA = sA;
         speedOfB = sB;
         speedOfC = sC;
 
-        if (filename == null)
+        try
         {
-            return;
-        }
-
-        BufferedReader buff = new BufferedReader(new FileReader(fileName));
-        numOfVert = parseInt(buff.readLine());
-        int numOfRoads = parseInt(buff.readLine());
-
-        if (numOfVert > 999999)
-        {
-            return;
-        }
-
-        roads = new double[numOfVert][numOfVert];
-
-        String currLine;
-        while ((currLine = buff.readLine()) != null)
-        {
-            String[] lineArray = currLine.split(" ");
-            int index = 0;
-            if (lineArray[index].equals(""))
+            if (filename == null)
             {
-                index++;
-                if (lineArray[index].equals(""))
-                    index++;
+                return;
             }
-            int vert1 = parseInt(lineArray[index++]);
-            if (lineArray[index].equals(""))
-            {
-                index++;
-                if (lineArray[index].equals(""))
-                    index++;
-            }
-            int vert2 = parseInt(lineArray[index++]);
-            roads[vert1][vert2] = parseDouble(lineArray[index]);
-        }
 
-        buff.close();
+            BufferedReader buff = new BufferedReader(new FileReader(fileName));
+            numOfVert = parseInt(buff.readLine());
+
+            if (numOfVert > 999999)
+                return;
+
+            int numOfRoads = parseInt(buff.readLine());
+
+            roads = new double[numOfVert][numOfVert];
+
+            String currLine;
+            while ((currLine = buff.readLine()) != null)
+            {
+                String[] lineArray = currLine.split(" ");
+                int index = 0;
+                if (lineArray[index].equals(""))
+                {
+                    index++;
+                    if (lineArray[index].equals(""))
+                        index++;
+                }
+                int vert1 = parseInt(lineArray[index++]);
+                if (lineArray[index].equals(""))
+                {
+                    index++;
+                    if (lineArray[index].equals(""))
+                        index++;
+                }
+                int vert2 = parseInt(lineArray[index++]);
+                roads[vert1][vert2] = parseDouble(lineArray[index]);
+            }
+
+            buff.close();
+        } catch (IOException e)
+        {
+            System.err.println("Error");
+            e.printStackTrace();
+        }
     }
 
     /**
