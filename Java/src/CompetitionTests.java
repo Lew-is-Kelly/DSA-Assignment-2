@@ -30,13 +30,13 @@ public class CompetitionTests
         assertEquals("Didn't return -1 for C", -1, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-D.txt", 50, 80, 60);
-        assertEquals("Didn't return 19 for D", 38, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return 38 for D", 38, compDijk.timeRequiredforCompetition());
 
 //        compDijk = new CompetitionDijkstra("input-E.txt", 72, 70, 65);
 //        assertEquals("Didn't return 22 for E", 22, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-F.txt", 50, 50, 50);
-        assertEquals("Didn't return 1832 for F", -1, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return -1 for F", -1, compDijk.timeRequiredforCompetition());
 
 //        compDijk = new CompetitionDijkstra("input-G.txt", 50, 50, 50);
 //        assertEquals("Didn't return 2000 for G", -1, compDijk.timeRequiredforCompetition());
@@ -45,13 +45,13 @@ public class CompetitionTests
 //        assertEquals("Didn't return -1 for H", -1, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-I.txt", 72, 70, 65);
-        assertEquals("Didn't return 180 for I", 185, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return 185 for I", 185, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-J.txt", 50, 50, 50);
         assertEquals("Didn't return -1 for no path", -1, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-K.txt", 51, 70, 88);
-        assertEquals("Didn't return 160 for K", 314, compDijk.timeRequiredforCompetition());
+        assertEquals("Didn't return 314 for K", 314, compDijk.timeRequiredforCompetition());
 
         compDijk = new CompetitionDijkstra("input-L.txt", 50, 50, 50);
         assertEquals("Didn't return 160 for L", 160, compDijk.timeRequiredforCompetition());
@@ -86,15 +86,15 @@ public class CompetitionTests
 //
 //        compFW = new CompetitionFloydWarshall("input-C.txt", 50, 50, 50);
 //        assertEquals("Didn't return -1 for C", -1, compFW.timeRequiredforCompetition());
-//
+
 //        compFW = new CompetitionFloydWarshall("input-D.txt", 50, 80, 60);
-//        assertEquals("Didn't return 19 for D", 38, compFW.timeRequiredforCompetition());
+//        assertEquals("Didn't return 38 for D", 38, compFW.timeRequiredforCompetition());
 //
 //        compFW = new CompetitionFloydWarshall("input-E.txt", 72, 70, 65);
 //        assertEquals("Didn't return -1 for E", 22, compFW.timeRequiredforCompetition());
 //
-//        compFW = new CompetitionFloydWarshall("input-F.txt", 50, 50, 50);
-//        assertEquals("Didn't return 1832 for F", -1, compFW.timeRequiredforCompetition());
+        compFW = new CompetitionFloydWarshall("input-F.txt", 50, 50, 50);
+        assertEquals("Didn't return -1 for F", -1, compFW.timeRequiredforCompetition());
 //
 //        compFW = new CompetitionFloydWarshall("input-G.txt", 50, 50, 50);
 //        assertEquals("Didn't return 2000 for G", -1, compFW.timeRequiredforCompetition());

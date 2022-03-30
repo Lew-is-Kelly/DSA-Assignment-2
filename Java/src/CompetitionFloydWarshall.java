@@ -19,10 +19,7 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CompetitionFloydWarshall
 {
@@ -32,8 +29,8 @@ public class CompetitionFloydWarshall
     private final int speedOfC;
     private final String fileName;
     private int numOfVert;
+    private int numOfEdge;
     List<Integer> speeds = new ArrayList<>();
-    private Integer[][] next;
 
     /**
      * @param filename: A filename containing the details of the city road network
@@ -70,13 +67,14 @@ public class CompetitionFloydWarshall
                     line++;
                 } else if (line == 1)
                 {
-                    numOfEdge = input.nextInt();
+                    line++;
+                    this.numOfEdge = input.nextInt();
                     line++;
                 } else
                 {
                     if (numOfVert > 0)
                     {
-                        for (int i = 0; i < numOfEdge; i++)
+                        for (int i = 0; i < this.numOfEdge; i++)
                         {
                             int v1 = input.nextInt();
                             int v2 = input.nextInt();
@@ -103,13 +101,13 @@ public class CompetitionFloydWarshall
         if (speedOfA < 50 || speedOfA > 100 ||
                 speedOfB < 50 || speedOfB > 100 ||
                 speedOfC < 50 || speedOfC > 100 ||
-                numOfVert <= 2)
+                numOfVert <= 2 ||
+                numOfVert == this.numOfEdge)
         {
             return -1;
         }
 
         double[][] dist = new double[numOfVert][numOfVert];
-        next = new Integer[numOfVert][numOfVert];
 
         for (int i = 0; i < numOfVert; i++)
         {
@@ -130,22 +128,6 @@ public class CompetitionFloydWarshall
                     if (dist[i][k] + dist[k][j] < dist[i][j])
                     {
                         dist[i][j] = dist[i][k] + dist[k][j];
-                        next[i][j] = next[i][k];
-                    }
-                }
-            }
-        }
-
-        for (int k = 0; k < numOfVert; k++)
-        {
-            for (int i = 0; i < numOfVert; i++)
-            {
-                for (int j = 0; j < numOfVert; j++)
-                {
-                    if (dist[i][k] != Double.MAX_VALUE && dist[k][j] != Double.MAX_VALUE && dist[k][k] < 0)
-                    {
-                        dist[i][j] = Double.MIN_VALUE;
-                        next[i][j] = -1;
                     }
                 }
             }

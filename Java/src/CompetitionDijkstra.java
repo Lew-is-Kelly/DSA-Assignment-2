@@ -29,6 +29,7 @@ public class CompetitionDijkstra
     private final int speedOfC;
     private final String fileName;
     private int numOfVert;
+    private int numOfEdge;
     List<Integer> speeds = new ArrayList<>();
     double[][] distances;
 
@@ -55,7 +56,7 @@ public class CompetitionDijkstra
             Scanner input = new Scanner(file);
             int line = 0;
             numOfVert = 0;
-            int numOfEdge = 0;
+            numOfEdge = 0;
             while (input.hasNextInt())
             {
                 if (line == 0)
@@ -68,13 +69,13 @@ public class CompetitionDijkstra
                     line++;
                 } else if (line == 1)
                 {
-                    numOfEdge = input.nextInt();
+                    this.numOfEdge = input.nextInt();
                     line++;
                 } else
                 {
                     if (numOfVert > 0)
                     {
-                        for (int i = 0; i < numOfEdge; i++)
+                        for (int i = 0; i < this.numOfEdge; i++)
                         {
                             int v1 = input.nextInt();
                             int v2 = input.nextInt();
