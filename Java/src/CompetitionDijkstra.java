@@ -56,6 +56,11 @@ public class CompetitionDijkstra
         numOfVert = parseInt(buff.readLine());
         int numOfRoads = parseInt(buff.readLine());
 
+        if (numOfVert > 999999)
+        {
+            return;
+        }
+
         roads = new double[numOfVert][numOfVert];
 
         String currLine;
@@ -91,9 +96,10 @@ public class CompetitionDijkstra
         if (speedOfA < 50 || speedOfA > 100
                 || speedOfB < 50 || speedOfB > 100
                 || speedOfC < 50 || speedOfC > 100
-                ||getMinDis() == -1
                 || fileName == null
-                || numOfVert <= 0)
+                || numOfVert <= 0
+                || numOfVert > 999999
+                ||getMinDis() == -1)
         {
             return -1;
         }
