@@ -151,7 +151,7 @@ public class CompetitionDijkstra
         double min = Double.MAX_VALUE;
         int mindex = -1;
         for (int i = 0; i < numOfVert; i++)
-            if (!vertPath.contains(i) && path[i] <= min)
+            if (!vertPath.contains(i) && path[i] < min)
             {
                 min = path[i];
                 mindex = i;
