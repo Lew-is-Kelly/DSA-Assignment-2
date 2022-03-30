@@ -64,7 +64,7 @@ public class CompetitionDijkstra
                     graph = new double[numOfVert][numOfVert];
                     for (int i = 0; i < numOfVert; i++)
                         for (int j = 0; j < numOfVert; j++)
-                            graph[i][j] = -3;
+                            graph[i][j] = -2;
                     line++;
                 } else if (line == 1)
                 {
@@ -182,7 +182,7 @@ public class CompetitionDijkstra
                 {
                     if (vert_U != -1)
                     {
-                        if (graph[vert_U][vert_V] != -3)
+                        if (graph[vert_U][vert_V] != -2)
                         {
                             if (distances[i][vert_V] > graph[vert_U][vert_V] + distances[i][vert_U])
                             {

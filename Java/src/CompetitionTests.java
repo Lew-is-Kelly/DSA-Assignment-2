@@ -66,17 +66,17 @@ public class CompetitionTests
     @Test
     public void testFWConstructor()
     {
-//        CompetitionFloydWarshall compFW = new CompetitionFloydWarshall(null, 50, 50, 50);
-//        assertEquals("Didn't return -1 for null file name", -1, compFW.timeRequiredforCompetition());
-//
-//        compFW = new CompetitionFloydWarshall("tinyEWD.txt", 1, 50, 50);
-//        assertEquals("Didn't return -1 for invalid speed", -1, compFW.timeRequiredforCompetition());
-//
+        CompetitionFloydWarshall compFW = new CompetitionFloydWarshall(null, 50, 50, 50);
+        assertEquals("Didn't return -1 for null file name", -1, compFW.timeRequiredforCompetition());
+
+        compFW = new CompetitionFloydWarshall("tinyEWD.txt", 1, 50, 50);
+        assertEquals("Didn't return -1 for invalid speed", -1, compFW.timeRequiredforCompetition());
+
 //        compFW = new CompetitionFloydWarshall("tinyEWD.txt", 50, 50, 50);
 //        assertEquals("TinySlow didn't return 38", 38, compFW.timeRequiredforCompetition());
 //
-//        compFW = new CompetitionFloydWarshall("tinyEWD.txt", 100, 100, 100);
-//        assertEquals("TinyFast didn't return 10", 19, compFW.timeRequiredforCompetition());
+        compFW = new CompetitionFloydWarshall("tinyEWD.txt", 100, 100, 100);
+        assertEquals("TinyFast didn't return 10", 19, compFW.timeRequiredforCompetition());
 //
 //        compFW = new CompetitionFloydWarshall("input-A.txt", 50, 50, 50);
 //        assertEquals("Didn't return -1 for A", -1, compFW.timeRequiredforCompetition());
