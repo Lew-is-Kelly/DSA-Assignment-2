@@ -9,7 +9,7 @@
  * initial positions and the intersection they finally meet. You are hired to help ACM answer this question.
  * You may assume the following:
  *     Each contestant walks at a given estimated speed.
- *     The city is a collection of intersections in which some pairs are connected by one-way
+ *     The city is a ylection of intersections in which some pairs are connected by one-way
  * streets that the contestants can use to traverse the city.
  *
  * This class implements the competition using Dijkstra's algorithm
@@ -17,24 +17,21 @@
  * @author Lewis Kelly 20335015
  */
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.File;
 import java.util.*;
-
-import static java.lang.Double.parseDouble;
-import static java.lang.Integer.MAX_VALUE;
-import static java.lang.Integer.parseInt;
 
 public class CompetitionDijkstra
 {
-    private final String fileName;
-    private int numOfVert;
+    double[][] graph;
     private final int speedOfA;
     private final int speedOfB;
     private final int speedOfC;
-    double[][] roads;
-    double[][] dist;
+    private final String fileName;
+    private int numOfVert;
+    List<Integer> speeds = new ArrayList<>();
+    double[][] distances;
+
 
     /**
      * @param filename: A filename containing the details of the city road network
@@ -42,54 +39,55 @@ public class CompetitionDijkstra
      */
     CompetitionDijkstra(String filename, int sA, int sB, int sC)
     {
-        fileName = filename;
-        speedOfA = sA;
-        speedOfB = sB;
-        speedOfC = sC;
+        this.fileName = filename;
+        this.speedOfA = sA;
+        this.speedOfB = sB;
+        this.speedOfC = sC;
 
         try
         {
-            if (filename == null)
+            if (fileName == null)
             {
                 return;
             }
 
-            BufferedReader buff = new BufferedReader(new FileReader(fileName));
-            numOfVert = parseInt(buff.readLine());
-
-            if (numOfVert > 999999)
-                return;
-
-            int numOfRoads = parseInt(buff.readLine());
-
-            roads = new double[numOfVert][numOfVert];
-
-            String currLine;
-            while ((currLine = buff.readLine()) != null)
+            File file = new File(fileName);
+            Scanner input = new Scanner(file);
+            int line = 0;
+            numOfVert = 0;
+            int numOfEdge = 0;
+            while (input.hasNextInt())
             {
-                String[] lineArray = currLine.split(" ");
-                int index = 0;
-                if (lineArray[index].equals(""))
+                if (line == 0)
                 {
-                    index++;
-                    if (lineArray[index].equals(""))
-                        index++;
-                }
-                int vert1 = parseInt(lineArray[index++]);
-                if (lineArray[index].equals(""))
+                    numOfVert = input.nextInt();
+                    graph = new double[numOfVert][numOfVert];
+                    for (int i = 0; i < numOfVert; i++)
+                        for (int j = 0; j < numOfVert; j++)
+                            graph[i][j] = -3;
+                    line++;
+                } else if (line == 1)
                 {
-                    index++;
-                    if (lineArray[index].equals(""))
-                        index++;
+                    numOfEdge = input.nextInt();
+                    line++;
+                } else
+                {
+                    if (numOfVert > 0)
+                    {
+                        for (int i = 0; i < numOfEdge; i++)
+                        {
+                            int v1 = input.nextInt();
+                            int v2 = input.nextInt();
+                            double weight = input.nextDouble();
+                            graph[v1][v2] = weight;
+                        }
+                    }
                 }
-                int vert2 = parseInt(lineArray[index++]);
-                roads[vert1][vert2] = parseDouble(lineArray[index]);
             }
-
-            buff.close();
-        } catch (IOException e)
+            input.close();
+        } catch (FileNotFoundException e)
         {
-            System.err.println("Error");
+            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
@@ -97,82 +95,74 @@ public class CompetitionDijkstra
     /**
      * @return int: minimum minutes that will pass before the three contestants can meet
      */
-    public int timeRequiredforCompetition()
+    int timeRequiredforCompetition()
     {
-        if (speedOfA < 50 || speedOfA > 100
-                || speedOfB < 50 || speedOfB > 100
-                || speedOfC < 50 || speedOfC > 100
-                || fileName == null
-                || numOfVert <= 0
-                || numOfVert > 999999
-                ||getMinDis() == -1)
+        if (getMinDis() == -1 || fileName == null)
         {
             return -1;
         }
-
-        int tot;
-        double distance = Double.MIN_VALUE;
-
-        for (double[] d : dist)
+        if (speedOfA < 50 || speedOfA > 100 ||
+                speedOfB < 50 || speedOfB > 100 ||
+                speedOfC < 50 || speedOfC > 100 ||
+                numOfVert <= 0)
         {
-            for (double val : d)
+            return -1;
+        }
+        int total;
+        double longestDist = Double.MIN_VALUE;
+
+        for (double[] dists : distances)
+        {
+            for (double val : dists)
             {
-                if(val != Double.MAX_VALUE)
+                if (val > longestDist)
                 {
-                    if (val > distance)
-                    {
-                        distance = val;
-                    }
-                }
-                else
-                {
-                    return -1;
+                    longestDist = val;
                 }
             }
         }
-
-        List<Integer> speeds = new ArrayList<>();
-
+        
         speeds.add(speedOfA);
         speeds.add(speedOfB);
         speeds.add(speedOfC);
+        int slowestSpeed = Collections.min(speeds);
 
-        int slowest = Collections.min(speeds);
+        longestDist *= 1000;
 
-        distance *= 1000;
+        total = (int) Math.ceil(longestDist / slowestSpeed);
 
-        tot = (int) Math.ceil(distance / slowest);
-
-        return tot;
+        return total;
     }
-
-    int getMinVert(double[] path, LinkedList<Integer> vertPath)
+    
+    int getMinVert(double[] mst, LinkedList<Integer> keyPath)
     {
         double min = Double.MAX_VALUE;
         int mindex = -1;
         for (int i = 0; i < numOfVert; i++)
-            if (!vertPath.contains(i) && path[i] < min)
+        {
+            if (mst[i] < min && !keyPath.contains(i))
             {
-                min = path[i];
+                min = mst[i];
                 mindex = i;
             }
+        }
         return mindex;
     }
 
-    int getMinDis()
+    public int getMinDis()
     {
-        dist = new double[numOfVert][numOfVert];
+        distances = new double[numOfVert][numOfVert];
 
-        for (int x = 0; x < dist.length; x++)
+        for (int x = 0; x < distances.length; x++)
         {
-            for (int y = 0; y < dist[x].length; y++)
+            for (int y = 0; y < distances[x].length; y++)
             {
                 if (x != y)
                 {
-                    dist[x][y] = Double.MAX_VALUE;
+                    distances[x][y] = Double.MAX_VALUE;
                 } else
                 {
-                    dist[x][y] = 0;
+                    distances[x][y] = 0;
                 }
             }
         }
@@ -185,17 +175,19 @@ public class CompetitionDijkstra
 
             while (vertPath.size() != numOfVert)
             {
-                int vert = getMinVert(dist[i], vertPath);
-                vertPath.add(vert);
+                int vert_U = getMinVert(distances[i], vertPath);
+                vertPath.add(vert_U);
 
-                for (int j = 0; j < numOfVert; j++)
+                for (int vert_V = 0; vert_V < numOfVert; vert_V++)
                 {
-                    if (vert != -1)
+                    if (vert_U != -1)
                     {
-                        if (roads[vert][j] != 0)
+                        if (graph[vert_U][vert_V] != -3)
                         {
-                            if (dist[i][j] > roads[vert][j] + dist[i][vert])
-                                dist[i][j] = roads[vert][j] + dist[i][vert];
+                            if (distances[i][vert_V] > graph[vert_U][vert_V] + distances[i][vert_U])
+                            {
+                                distances[i][vert_V] = graph[vert_U][vert_V] + distances[i][vert_U];
+                            }
                         }
                     } else
                     {
