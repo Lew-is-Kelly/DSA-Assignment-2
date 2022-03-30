@@ -67,15 +67,9 @@ public class CompetitionDijkstra
         {
             try
             {
-                if (file.hasNextInt())
-                {
-                    this.numOfVert = file.nextInt();
-                }
-                if (file.hasNextInt())
-                {
-                    this.numOfEdge = file.nextInt();
-                    file.nextLine();
-                }
+                this.numOfVert = file.nextInt();
+                this.numOfEdge = file.nextInt();
+                file.nextLine();
                 while (file.hasNextLine())
                 {
                     graphString.add(file.nextLine());
@@ -151,10 +145,6 @@ public class CompetitionDijkstra
             }
 
             double max = getHighestValue(dist);
-            if (max == Double.POSITIVE_INFINITY)
-            {
-                return -1;
-            }
             if (max > currentMaxDist)
             {
                 currentMaxDist = max;
@@ -199,23 +189,10 @@ public class CompetitionDijkstra
         slowest.add(speedOfC);
         int slowestSpeed = Collections.min(slowest);
 
-        //double[][] dist = new double[this.numOfVert][this.numOfVert];
-
-        for (int i = 0; i < this.numOfVert; i++)
-        {
-            for (int j = 0; j < this.numOfVert; j++)
-            {
-                //dist[i][j] = Double.POSITIVE_INFINITY;
-            }
-        }
-
         graph = buildGraph();
         double maxDist = dijkstra();
 
-        if (maxDist == -1)
-            return -1;
-        else
-            return (int) ((Math.ceil((maxDist * 1000) / slowestSpeed)));
+        return (int) ((Math.ceil((maxDist * 1000) / slowestSpeed)));
     }
 
 }
