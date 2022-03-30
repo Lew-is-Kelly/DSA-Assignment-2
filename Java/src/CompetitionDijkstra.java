@@ -52,7 +52,7 @@ public class CompetitionDijkstra
             return;
         }
 
-        BufferedReader buff = new BufferedReader(new FileReader("inputAssignment2/" + fileName));
+        BufferedReader buff = new BufferedReader(new FileReader(fileName));
         numOfVert = parseInt(buff.readLine());
         int numOfRoads = parseInt(buff.readLine());
 
