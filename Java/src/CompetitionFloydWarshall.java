@@ -1,16 +1,16 @@
 /*
  * A Contest to Meet (ACM) is a reality TV contest that sets three contestants at three random
- * city intersections. In order to win, the three contestants need all to meet at any intersection
+ * city numOfVert. In order to win, the three contestants need all to meet at any intersection
  * of the city as fast as possible.
- * It should be clear that the contestants may arrive at the intersections at different times, in
+ * It should be clear that the contestants may arrive at the numOfVert at different times, in
  * which case, the first to arrive can wait until the others arrive.
  * From an estimated walking speed for each one of the three contestants, ACM wants to determine the
  * minimum time that a live TV broadcast should last to cover their journey regardless of the contestants’
  * initial positions and the intersection they finally meet. You are hired to help ACM answer this question.
  * You may assume the following:
  *     Each contestant walks at a given estimated speed.
- *     The city is a collection of intersections in which some pairs are connected by one-way
- * streets that the contestants can use to traverse the city.
+ *     The city is a collection of numOfVert in which some pairs are connected by one-way
+ * numOfEdge that the contestants can use to traverse the city.
  *
  * This class implements the competition using Floyd-Warshall algorithm
  *
@@ -18,23 +18,27 @@
  */
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class CompetitionFloydWarshall
 {
+
+    String fileName;
+    int speedOfA;
+    int speedOfB;
+    int speedOfC;
+
+    int numOfVert = 0;
+    int numOfEdge = 0;
+    boolean valid = true;
+
+    ArrayList<String> graphString;
     double[][] graph;
-    private final int speedOfA;
-    private final int speedOfB;
-    private final int speedOfC;
-    private final String fileName;
-    private int numOfVert;
-    private int numOfEdge;
-    List<Integer> speeds = new ArrayList<>();
 
     /**
      * @param filename: A filename containing the details of the city road network
-     * @param sA,sB,sC: speeds for 3 contestants
+     * @param sA,       sB, sC: speeds for 3 contestants
      */
     CompetitionFloydWarshall(String filename, int sA, int sB, int sC)
     {
@@ -42,130 +46,129 @@ public class CompetitionFloydWarshall
         this.speedOfA = sA;
         this.speedOfB = sB;
         this.speedOfC = sC;
+        this.graphString = new ArrayList<>();
+        parseFile(fileScanner(fileName));
+    }
 
+    private Scanner fileScanner(String fileName)
+    {
         try
         {
-            if (fileName == null)
-            {
-                return;
-            }
-
-            File file = new File(fileName);
-            Scanner input = new Scanner(file);
-            int line = 0;
-            numOfVert = 0;
-            int numOfEdge = 0;
-            while (input.hasNextInt())
-            {
-                if (line == 0)
-                {
-                    numOfVert = input.nextInt();
-                    graph = new double[numOfVert][numOfVert];
-                    for (int i = 0; i < numOfVert; i++)
-                        for (int j = 0; j < numOfVert; j++)
-                            graph[i][j] = 0;
-                    line++;
-                } else if (line == 1)
-                {
-                    line++;
-                    this.numOfEdge = input.nextInt();
-                    line++;
-                } else
-                {
-                    if (numOfVert > 0)
-                    {
-                        for (int i = 0; i < this.numOfEdge; i++)
-                        {
-                            int v1 = input.nextInt();
-                            int v2 = input.nextInt();
-                            double weight = input.nextDouble();
-                            graph[v1][v2] = weight;
-                        }
-                    }
-                }
-            }
-            input.close();
-        } catch (FileNotFoundException e)
+            return new Scanner(new File(fileName));
+        } catch (Exception e)
         {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            valid = false;
+            return null;
         }
     }
 
+    private void parseFile(Scanner file)
+    {
+        if (valid)
+        {
+            try
+            {
+                if (file.hasNextInt())
+                {
+                    this.numOfVert = file.nextInt();
+                }
+                if (file.hasNextInt())
+                {
+                    this.numOfEdge = file.nextInt();
+                    file.nextLine();
+                }
+                while (file.hasNextLine())
+                {
+                    graphString.add(file.nextLine());
+                }
+            } catch (Exception e)
+            {
+                System.out.println(e);
+            }
+        }
+    }
+
+    private double[][] buildGraph()
+    {
+        double[][] graph = new double[this.numOfVert][this.numOfVert];
+        for (int i = 0; i < this.numOfVert; i++)
+        {
+            for (int j = 0; j < this.numOfVert; j++)
+            {
+                graph[i][j] = Double.POSITIVE_INFINITY;
+            }
+        }
+        for (int i = 0; i < this.numOfVert; i++)
+        {
+            graph[i][i] = 0;
+        }
+
+        for (int i = 0; (i < this.graphString.size()); i++)
+        {
+            Scanner lineScanner = new Scanner(this.graphString.get(i));
+            int street = lineScanner.nextInt();
+            int connectingStreet = lineScanner.nextInt();
+            double distance = lineScanner.nextDouble();
+
+            graph[street][connectingStreet] = distance;
+            lineScanner.close();
+        }
+
+        return graph;
+    }
+
+    private void floydWarshall(double[][] graph, int nodes)
+    {
+        for (int k = 0; k < nodes; k++)
+        {
+            for (int i = 0; i < nodes; i++)
+            {
+                for (int j = 0; j < nodes; j++)
+                {
+                    if (graph[i][j] > graph[i][k] + graph[k][j])
+                    {
+                        graph[i][j] = graph[i][k] + graph[k][j];
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * @return int: minimum minutes that will pass before the three contestants can meet
      */
     public int timeRequiredforCompetition()
     {
-        if (speedOfA < 50 || speedOfA > 100 ||
-                speedOfB < 50 || speedOfB > 100 ||
-                speedOfC < 50 || speedOfC > 100 ||
-                numOfVert <= 2 ||
-                numOfVert == this.numOfEdge)
-        {
+        if (!valid || this.numOfVert == 0
+                || ((speedOfA > 100 || speedOfA < 50)
+                || (speedOfB > 100 || speedOfB < 50)
+                || (speedOfC > 100 || speedOfC < 50)))
             return -1;
-        }
+        int slowestSpeed;
+        if (this.speedOfA < this.speedOfB && this.speedOfA < this.speedOfC)
+            slowestSpeed = speedOfA;
+        else if (this.speedOfB < this.speedOfA && this.speedOfB < this.speedOfC)
+            slowestSpeed = this.speedOfB;
+        else
+            slowestSpeed = this.speedOfC;
 
-        double[][] dist = new double[numOfVert][numOfVert];
+        graph = buildGraph();
+        floydWarshall(graph, numOfVert);
 
-        for (int i = 0; i < numOfVert; i++)
+        double maxDist = 0;
+        for (double[] row : graph)
         {
-            for (int j = 0; j < numOfVert; j++)
+            for (double dist : row)
             {
-                if (graph[i][j] != 0)
-                {
-                    dist[i][j] = graph[i][j];
-                } else dist[i][j] = Double.MAX_VALUE;
-            }
-        }
-        for (int k = 0; k < numOfVert; k++)
-        {
-            for (int i = 0; i < numOfVert; i++)
-            {
-                for (int j = 0; j < numOfVert; j++)
-                {
-                    if (dist[i][k] + dist[k][j] < dist[i][j])
-                    {
-                        dist[i][j] = dist[i][k] + dist[k][j];
-                    }
-                }
+                if (maxDist < dist)
+                    maxDist = dist;
             }
         }
 
-        for (int i = 0; i < numOfVert; i++)
-        {
-            for (int j = 0; j < numOfVert; j++)
-            {
-                if(dist[i][j] == Double.MAX_VALUE)
-                {
-                    dist[i][j] = 0.0;
-                }
-            }
-        }
-
-        int total;
-        double longestDist = Double.MIN_VALUE;
-        for (double[] distRow : dist)
-        {
-            for (double val : distRow)
-            {
-                if (val > longestDist)
-                {
-                    longestDist = val;
-                }
-            }
-        }
-        speeds.add(speedOfA);
-        speeds.add(speedOfB);
-        speeds.add(speedOfC);
-        int slowestSpeed = Collections.min(speeds);
-
-        longestDist *= 1000;
-
-        total = (int) Math.ceil(longestDist / slowestSpeed);
-
-        return total;
+        if (maxDist == Double.POSITIVE_INFINITY)
+            return -1;
+        else
+            return (int) Math.ceil((maxDist * 1000) / slowestSpeed);
     }
 
 }
